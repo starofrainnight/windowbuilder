@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.ToolBar;
 
 /**
  * Helper for managing actions on internal {@link ToolBarManager} of {@link DesignPage}.
- * 
+ *
  * @author lobas_av
  * @author scheglov_ke
  * @coverage core.editor
@@ -68,7 +68,6 @@ public final class JavaDesignToolbarHelper extends DesignToolbarHelper {
       m_toolBarManager.add(new Separator());
     }
     super.fill();
-    /* $if oem.name != "RIM" $ */
     {
       m_toolBarManager.add(m_pageActions.getAssistantAction());
       m_toolBarManager.add(new Separator());
@@ -77,7 +76,6 @@ public final class JavaDesignToolbarHelper extends DesignToolbarHelper {
       m_externalizeItem = new ExternalizeStringsContributionItem();
       m_toolBarManager.add(m_externalizeItem);
     }
-    /* $endif$ */
     super.fill2();
   }
 
@@ -87,9 +85,7 @@ public final class JavaDesignToolbarHelper extends DesignToolbarHelper {
   @Override
   public void setRoot(ObjectInfo rootObject) {
     super.setRoot(rootObject);
-    /* $if oem.name != "RIM" $ */
     m_externalizeItem.setRoot((JavaInfo) rootObject);
-    /* $endif$ */
     m_toolBarManager.getControl().getParent().layout();
   }
 }

@@ -24,7 +24,6 @@
       <import feature="org.eclipse.wb.core.java.feature" version="0.0.0" match="greaterOrEqual"/>
    </requires>
 
-   <!-- $if eclipse.version >= 3.5$ -->
    <plugin
          id="org.eclipse.wb.core.xml"
          download-size="0"
@@ -38,5 +37,4 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-   <!-- $endif$ -->
 </feature>
