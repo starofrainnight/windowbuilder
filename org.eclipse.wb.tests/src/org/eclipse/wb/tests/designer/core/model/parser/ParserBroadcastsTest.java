@@ -18,7 +18,6 @@ import org.eclipse.wb.core.model.broadcast.ObjectEventListener;
 import org.eclipse.wb.internal.core.model.ObjectInfoVisitor;
 import org.eclipse.wb.internal.core.parser.JavaInfoParser;
 import org.eclipse.wb.internal.core.utils.ast.AstEditor;
-import org.eclipse.wb.internal.ercp.devices.DeviceSelectionJavaInfoParticipator;
 import org.eclipse.wb.internal.swing.laf.ui.LafRootProcessor;
 import org.eclipse.wb.internal.swing.model.component.ContainerInfo;
 import org.eclipse.wb.tests.designer.TestUtils;
@@ -40,7 +39,7 @@ import javax.swing.JTextField;
  * <p>
  * So, we should "evict" listeners for all {@link ObjectInfo}'s except root {@link JavaInfo}
  * selected in {@link JavaInfoParser}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ParserBroadcastsTest extends SwingModelTest {
@@ -50,14 +49,13 @@ public class ParserBroadcastsTest extends SwingModelTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_noExternalListener() throws Exception {
-    ContainerInfo panel =
-        parseContainer(
-            "public class Test extends JPanel {",
-            "  public Test() {",
-            "    Component notBoundComponentObject = new JTextField();",
-            "    add(new JButton());",
-            "  }",
-            "}");
+    ContainerInfo panel = parseContainer(
+        "public class Test extends JPanel {",
+        "  public Test() {",
+        "    Component notBoundComponentObject = new JTextField();",
+        "    add(new JButton());",
+        "  }",
+        "}");
     panel.refresh();
     // extension is not added yet, so...
     assertEquals(0, MyParticipator.m_refreshCount);
@@ -70,14 +68,13 @@ public class ParserBroadcastsTest extends SwingModelTest {
   public void test_extraListenersEvicted() throws Exception {
     addParticipatorExtension(MyParticipator.class.getName());
     try {
-      ContainerInfo panel =
-          parseContainer(
-              "public class Test extends JPanel {",
-              "  public Test() {",
-              "    Component notBoundComponentObject = new JTextField();",
-              "    add(new JButton());",
-              "  }",
-              "}");
+      ContainerInfo panel = parseContainer(
+          "public class Test extends JPanel {",
+          "  public Test() {",
+          "    Component notBoundComponentObject = new JTextField();",
+          "    add(new JButton());",
+          "  }",
+          "}");
       // no "JTextField" in "panel" hierarchy
       panel.accept(new ObjectInfoVisitor() {
         @Override
@@ -101,7 +98,7 @@ public class ParserBroadcastsTest extends SwingModelTest {
 
   /**
    * Test implementation of {@link IJavaInfoInitializationParticipator}.
-   * 
+   *
    * @author scheglov_ke
    */
   public static final class MyParticipator implements IJavaInfoInitializationParticipator {
@@ -124,11 +121,12 @@ public class ParserBroadcastsTest extends SwingModelTest {
   // Dynamic IJavaInfoInitializationParticipator extension support
   //
   ////////////////////////////////////////////////////////////////////////////
-  private static final String POINT_ID = "org.eclipse.wb.core.java.javaInfoInitializationParticipators";
+  private static final String POINT_ID =
+      "org.eclipse.wb.core.java.javaInfoInitializationParticipators";
 
   /**
    * Adds dynamic {@link IJavaInfoInitializationParticipator} extension.
-   * 
+   *
    * @param className
    *          the name of {@link IJavaInfoInitializationParticipator} class.
    */

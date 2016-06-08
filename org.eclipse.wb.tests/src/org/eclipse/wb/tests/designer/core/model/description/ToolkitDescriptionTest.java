@@ -31,7 +31,7 @@ import java.util.Set;
 
 /**
  * Tests for {@link ToolkitDescription}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ToolkitDescriptionTest extends DesignerTestCase {
@@ -66,9 +66,12 @@ public class ToolkitDescriptionTest extends DesignerTestCase {
         toolkitIds.add(toolkitElement.getAttribute("id"));
       }
     }
-    assertTrue(toolkitIds.contains(org.eclipse.wb.internal.core.preferences.IPreferenceConstants.TOOLKIT_ID));
-    assertTrue(toolkitIds.contains(org.eclipse.wb.internal.swing.preferences.IPreferenceConstants.TOOLKIT_ID));
-    assertTrue(toolkitIds.contains(org.eclipse.wb.internal.ercp.preferences.IPreferenceConstants.TOOLKIT_ID));
+    assertTrue(
+        toolkitIds.contains(
+            org.eclipse.wb.internal.core.preferences.IPreferenceConstants.TOOLKIT_ID));
+    assertTrue(
+        toolkitIds.contains(
+            org.eclipse.wb.internal.swing.preferences.IPreferenceConstants.TOOLKIT_ID));
     assertFalse(toolkitIds.contains("no-such-toolkit-id"));
   }
 
@@ -89,7 +92,8 @@ public class ToolkitDescriptionTest extends DesignerTestCase {
     // check for existing toolkit
     assertSame(
         org.eclipse.wb.internal.swing.ToolkitProvider.DESCRIPTION,
-        DescriptionHelper.getToolkit(org.eclipse.wb.internal.swing.preferences.IPreferenceConstants.TOOLKIT_ID));
+        DescriptionHelper.getToolkit(
+            org.eclipse.wb.internal.swing.preferences.IPreferenceConstants.TOOLKIT_ID));
     // check for not existing toolkit
     try {
       DescriptionHelper.getToolkit("no-such-toolkit-id");
@@ -106,7 +110,6 @@ public class ToolkitDescriptionTest extends DesignerTestCase {
     assertThat(toolkits).contains(
         org.eclipse.wb.internal.core.ToolkitProvider.DESCRIPTION,
         org.eclipse.wb.internal.swing.ToolkitProvider.DESCRIPTION,
-        org.eclipse.wb.internal.ercp.ToolkitProvider.DESCRIPTION,
         org.eclipse.wb.internal.rcp.ToolkitProvider.DESCRIPTION);
   }
 }
