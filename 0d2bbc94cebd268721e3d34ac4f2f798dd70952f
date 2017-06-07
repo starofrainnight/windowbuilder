@@ -1,0 +1,9 @@
+Verified+1: Hudson CI
+Code-Review+1: Fabian Pfaff <fabian.pfaff@vogella.com>
+Code-Review+2: Lars Vogel <Lars.Vogel@vogella.com>
+Verified+1: Lars Vogel <Lars.Vogel@vogella.com>
+Submitted-by: Lars Vogel <Lars.Vogel@vogella.com>
+Submitted-at: Wed, 07 Jun 2017 03:50:08 -0400
+Reviewed-on: https://git.eclipse.org/r/98591
+Project: windowbuilder/org.eclipse.windowbuilder
+Branch: refs/heads/master
