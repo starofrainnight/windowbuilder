@@ -76,7 +76,7 @@ so for example we can look in it for component descriptions (*.wbp-component.xml
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.wb.internal.core.model.description.IToolkitProvider"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -607,6 +607,5 @@ this distribution, and is available at &lt;a
 href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
       </documentation>
    </annotation>
-
 
 </schema>
