@@ -67,7 +67,7 @@ So, we need some special way to initialize field m_designTimePluginResourceProvi
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.wb.internal.core.utils.reflect.IClassLoadingListener"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.wb.internal.core.utils.reflect.IClassLoaderInitializer"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -122,6 +122,5 @@ this distribution, and is available at &lt;a
 href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
       </documentation>
    </annotation>
-
 
 </schema>
