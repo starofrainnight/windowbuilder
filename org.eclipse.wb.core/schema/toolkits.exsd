@@ -235,7 +235,7 @@ In Designer itself entries usually defined directly in &quot;category&quot;, so 
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.wb.internal.core.editor.palette.EntryInfo"/>
+                  <meta.attribute kind="java" basedOn="org.eclipse.wb.core.editor.palette.model.EntryInfo:"/>
                </appInfo>
             </annotation>
          </attribute>
