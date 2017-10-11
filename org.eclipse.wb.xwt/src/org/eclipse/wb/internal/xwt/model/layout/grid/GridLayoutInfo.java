@@ -69,7 +69,7 @@ import java.util.Set;
 
 /**
  * Model for {@link GridLayout}.
- * 
+ *
  * @author scheglov_ke
  * @coverage XWT.model.layout
  */
@@ -264,7 +264,7 @@ public class GridLayoutInfo extends LayoutInfo
     composite.layout();
     // update GridDataInfo's
     for (ControlInfo controlInfo : getControls()) {
-      Control control = (Control) controlInfo.getObject();
+      Control control = controlInfo.getControl();//not sure it is a good idea in a Papyrus conte
       GridData2 gridDataObject = GridLayout2.getLayoutData2(control);
       if (gridDataObject != null) {
         GridDataInfo gridDataInfo = getGridData(controlInfo);
@@ -354,10 +354,9 @@ public class GridLayoutInfo extends LayoutInfo
     ControlInfo[][] grid = getControlsGrid();
     boolean deleteOnlyIfIsRemovingColumn = false;
     for (int column = grid[0].length - 1; column >= 0; column--) {
-      boolean isRemovingColumn =
-          removingData != null
-              && removingData.x <= column
-              && column < removingData.x + removingData.width;
+      boolean isRemovingColumn = removingData != null
+          && removingData.x <= column
+          && column < removingData.x + removingData.width;
       // check if empty
       boolean isEmpty = true;
       for (int row = 0; row < grid.length; row++) {
@@ -380,10 +379,9 @@ public class GridLayoutInfo extends LayoutInfo
     ControlInfo[][] grid = getControlsGrid();
     boolean deleteOnlyIfIsRemovingRow = false;
     for (int row = grid.length - 1; row >= 0; row--) {
-      boolean isRemovingRow =
-          removingData != null
-              && removingData.y <= row
-              && row < removingData.y + removingData.height;
+      boolean isRemovingRow = removingData != null
+          && removingData.y <= row
+          && row < removingData.y + removingData.height;
       // check if empty
       boolean isEmpty = true;
       for (int column = 0; column < grid[row].length; column++) {
@@ -941,7 +939,7 @@ public class GridLayoutInfo extends LayoutInfo
 
   /**
    * @return the {@link ControlInfo} that should be used as reference of adding into specified cell.
-   * 
+   *
    * @param exclude
    *          the {@link ControlInfo} that should not be checked, for example because we move it now
    */
