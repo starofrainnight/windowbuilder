@@ -112,9 +112,11 @@ public abstract class LayoutEditPolicy extends GraphicalEditPolicy {
       return validator.validatePasteRequest(host, (PasteRequest) request);
     }
     if (type == Request.REQ_MOVE) {
+      System.out.println("Move request");
       return validator.validateMoveRequest(host, (ChangeBoundsRequest) request);
     }
     if (type == Request.REQ_ADD) {
+      System.out.println("Add request");
       return validator.validateAddRequest(host, (ChangeBoundsRequest) request);
     }
     return false;

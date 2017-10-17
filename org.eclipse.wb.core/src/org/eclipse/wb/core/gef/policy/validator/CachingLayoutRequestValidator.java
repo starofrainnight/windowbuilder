@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * {@link ILayoutRequestValidator} which caches results of validation.
- * 
+ *
  * @author scheglov_ke
  * @coverage core.gef.policy
  */
@@ -47,10 +47,10 @@ public final class CachingLayoutRequestValidator implements ILayoutRequestValida
   public boolean validateCreateRequest(EditPart host, CreateRequest request) {
     Map<EditPart, Boolean> cache = getCache(request);
     Boolean cachedResult = cache.get(host);
-    if (cachedResult == null) {
-      cachedResult = m_validator.validateCreateRequest(host, request);
-      cache.put(host, cachedResult);
-    }
+//    if (cachedResult == null) {
+    cachedResult = m_validator.validateCreateRequest(host, request);
+    cache.put(host, cachedResult);
+//    }
     return cachedResult;
   }
 

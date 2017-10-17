@@ -26,11 +26,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.property,
  org.eclipse.jface.databinding,
- org.eclipse.core.filesystem
+ org.eclipse.core.filesystem,
+ org.eclipse.papyrus.infra.properties.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.wb.internal.xwt,
  org.eclipse.wb.internal.xwt.editor;x-friends:="org.eclipse.wb.tests",
+ org.eclipse.wb.internal.xwt.gef.part,
  org.eclipse.wb.internal.xwt.model.forms,
  org.eclipse.wb.internal.xwt.model.forms.layout.column,
  org.eclipse.wb.internal.xwt.model.forms.layout.table,
