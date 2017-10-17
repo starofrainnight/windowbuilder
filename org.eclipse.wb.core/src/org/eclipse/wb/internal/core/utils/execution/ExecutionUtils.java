@@ -289,6 +289,7 @@ public class ExecutionUtils {
     try {
       return runnable.runObject();
     } catch (Throwable e) {
+      System.out.println("Exwcepttion due to Papyrus occurred");
       return defaultValue;
     }
   }

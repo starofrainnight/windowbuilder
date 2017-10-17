@@ -10,12 +10,13 @@
  *******************************************************************************/
 package org.eclipse.wb.internal.xwt.editor;
 
+import org.eclipse.papyrus.infra.properties.ui.runtime.PropertiesRuntime;
 import org.eclipse.wb.internal.core.xml.editor.AbstractXmlEditor;
 import org.eclipse.wb.internal.core.xml.editor.XmlDesignPage;
 
 /**
  * Editor for XWT UI.
- * 
+ *
  * @author scheglov_ke
  * @coverage XWT.editor
  */
@@ -29,6 +30,9 @@ public final class XwtEditor extends AbstractXmlEditor {
   ////////////////////////////////////////////////////////////////////////////
   @Override
   protected XmlDesignPage createDesignPage() {
+    PropertiesRuntime.getConfigurationManager();
+//    ClassLoader loader = PropertiesRuntime.getConfigurationManager().getClass().getClassLoader();
+//    System.out.println("IN XwtEditor class loader is : " + loader);
     return new XwtDesignPage();
   }
 }

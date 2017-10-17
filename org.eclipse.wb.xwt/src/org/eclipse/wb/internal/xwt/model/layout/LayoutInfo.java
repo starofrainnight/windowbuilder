@@ -55,7 +55,7 @@ import java.util.List;
 
 /**
  * Model for any XWT {@link Layout}.
- * 
+ *
  * @author scheglov_ke
  * @coverage XWT.model.layout
  */
@@ -93,7 +93,7 @@ public class LayoutInfo extends XmlObjectInfo implements ILayoutInfo<ControlInfo
         if (getContext().isParsing()) {
           return;
         }
-        // Control was added, create virtual LayoutData 
+        // Control was added, create virtual LayoutData
         if (isActiveOnComposite(parent) && isManagedObject(child)) {
           ensureLayoutData((ControlInfo) child);
         }
@@ -227,7 +227,7 @@ public class LayoutInfo extends XmlObjectInfo implements ILayoutInfo<ControlInfo
    * when we intentionally delete {@link LayoutDataInfo}, for example during process of moving this
    * {@link ControlInfo} from this {@link LayoutData_Support} or deleting this
    * {@link LayoutData_Support}.
-   * 
+   *
    * @return <code>true</code> if for given {@link ControlInfo} we should create
    *         {@link LayoutDataInfo}.
    */
@@ -280,7 +280,7 @@ public class LayoutInfo extends XmlObjectInfo implements ILayoutInfo<ControlInfo
   /**
    * Ensures {@link LayoutDataInfo} for managed {@link ControlInfo}.
    */
-  private void ensureLayoutDatas() throws Exception {
+  protected void ensureLayoutDatas() throws Exception {
     for (ControlInfo control : getControls()) {
       ensureLayoutData(control);
     }
@@ -290,7 +290,7 @@ public class LayoutInfo extends XmlObjectInfo implements ILayoutInfo<ControlInfo
    * Ensure that if {@link LayoutDataInfo} should exist for given component, there is "real"
    * {@link LayoutDataInfo}, or create "virtual"/"implicit" {@link LayoutDataInfo}.
    */
-  private void ensureLayoutData(ControlInfo control) throws Exception {
+  protected void ensureLayoutData(ControlInfo control) throws Exception {
     if (hasLayoutData()) {
       LayoutDataInfo layoutData = getLayoutData(control);
       if (layoutData == null) {
@@ -303,9 +303,9 @@ public class LayoutInfo extends XmlObjectInfo implements ILayoutInfo<ControlInfo
    * Creates virtual {@link LayoutDataInfo} for given {@link ControlInfo}.
    * <p>
    * "Virtual" {@link LayoutDataInfo} is placeholder for "layout data" when "layout data" should
-   * exist, but does not exist yet in source code. Most layout managers in this case use
-   * "layout data" with some default values. So, we show these values in properties and allow to
-   * change them, at this moment we "materialize" {@link LayoutDataInfo} in source code.
+   * exist, but does not exist yet in source code. Most layout managers in this case use "layout
+   * data" with some default values. So, we show these values in properties and allow to change
+   * them, at this moment we "materialize" {@link LayoutDataInfo} in source code.
    */
   private void createVirtualLayoutData(ControlInfo control) throws Exception {
     Object dataObject = getLayoutDataVirtualObject();
@@ -313,11 +313,10 @@ public class LayoutInfo extends XmlObjectInfo implements ILayoutInfo<ControlInfo
     LayoutDataInfo layoutData;
     {
       CreationSupport creationSupport = new VirtualLayoutDataCreationSupport(control, dataObject);
-      layoutData =
-          (LayoutDataInfo) XmlObjectUtils.createObject(
-              getContext(),
-              getLayoutDataClass(),
-              creationSupport);
+      layoutData = (LayoutDataInfo) XmlObjectUtils.createObject(
+          getContext(),
+          getLayoutDataClass(),
+          creationSupport);
     }
     // add to control
     control.addChild(layoutData);
