@@ -45,11 +45,11 @@ import java.util.List;
 
 /**
  * Model for SWT {@link GridData}.
- * 
+ *
  * @author scheglov_ke
  * @coverage XWT.model.layout
  */
-public final class GridDataInfo extends LayoutDataInfo implements IGridDataInfo {
+public class GridDataInfo extends LayoutDataInfo implements IGridDataInfo {
   private boolean m_internalLocationChange = false;
   int x = -1;
   int y = -1;

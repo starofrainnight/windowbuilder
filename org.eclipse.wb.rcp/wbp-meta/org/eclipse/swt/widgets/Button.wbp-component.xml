@@ -7,8 +7,8 @@
 	<!-- CREATION -->
 	<creation>
 		<source><![CDATA[new org.eclipse.swt.widgets.Button(%parent%, org.eclipse.swt.SWT.NONE)]]></source>
-		<invocation signature="setText(java.lang.String)"><![CDATA["New Button"]]></invocation>
-		<x-attribute name="text" value="New Button"/>
+		<invocation signature="setText(java.lang.String)"><![CDATA["New Button12"]]></invocation>
+		<x-attribute name="text" value="New Button15"/>
 	</creation>
 	<creation id="empty">
 		<source><![CDATA[new org.eclipse.swt.widgets.Button(%parent%, org.eclipse.swt.SWT.NONE)]]></source>

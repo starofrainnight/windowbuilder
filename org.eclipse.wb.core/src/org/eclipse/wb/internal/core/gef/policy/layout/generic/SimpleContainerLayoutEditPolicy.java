@@ -30,11 +30,11 @@ import java.util.List;
 
 /**
  * {@link LayoutEditPolicy} for {@link SimpleContainer_Support}.
- * 
+ *
  * @author scheglov_ke
  * @coverage core.gef.policy
  */
-public final class SimpleContainerLayoutEditPolicy extends LayoutEditPolicy {
+public class SimpleContainerLayoutEditPolicy extends LayoutEditPolicy {
   private final ObjectInfo m_model;
   private final SimpleContainer m_container;
   private final ILayoutRequestValidator m_requestValidator;

@@ -25,6 +25,7 @@ import org.eclipse.wb.gef.core.policies.IRefreshableEditPolicy;
 import org.eclipse.wb.gef.core.requests.ChangeBoundsRequest;
 import org.eclipse.wb.gef.core.requests.CreateRequest;
 import org.eclipse.wb.gef.core.requests.PasteRequest;
+import org.eclipse.wb.gef.core.requests.Request;
 import org.eclipse.wb.gef.graphical.policies.LayoutEditPolicy;
 import org.eclipse.wb.internal.core.model.clipboard.JavaInfoMemento;
 import org.eclipse.wb.internal.core.utils.state.GlobalState;
@@ -45,14 +46,28 @@ import java.util.List;
 
 /**
  * Implementation of {@link LayoutEditPolicy} for {@link IGridLayoutInfo}.
- * 
+ *
  * @author scheglov_ke
  * @coverage swt.gef.GridLayout
  */
-public final class GridLayoutEditPolicy<C extends IControlInfo>
-    extends
-      AbstractGridLayoutEditPolicy implements IRefreshableEditPolicy {
+public class GridLayoutEditPolicy<C extends IControlInfo> extends AbstractGridLayoutEditPolicy
+    implements
+      IRefreshableEditPolicy {
   private final IGridLayoutInfo<C> m_layout;
+
+  @Override
+  public boolean understandsRequest(Request request) {
+    boolean res = super.understandsRequest(request);
+    int i = 0;
+    i++;
+    if (res) {
+//      System.out.println("I understand" + request);
+    } else {
+      i++;
+      System.out.println("I DONT understand" + request);
+    }
+    return super.understandsRequest(request);
+  }
 
   ////////////////////////////////////////////////////////////////////////////
   //
@@ -132,7 +147,8 @@ public final class GridLayoutEditPolicy<C extends IControlInfo>
           continue;
         }
         // managed: may be was excluded
-        if (!(child.getEditPolicy(EditPolicy.SELECTION_ROLE) instanceof GridSelectionEditPolicy<?>)) {
+        if (!(child.getEditPolicy(
+            EditPolicy.SELECTION_ROLE) instanceof GridSelectionEditPolicy<?>)) {
           decorateChild(child);
         }
       }
@@ -263,7 +279,7 @@ public final class GridLayoutEditPolicy<C extends IControlInfo>
   ////////////////////////////////////////////////////////////////////////////
   /**
    * Determines parameters of insert feedback.
-   * 
+   *
    * @return the array of: visual gap, begin/end of insert feedback, begin/end of target feedback.
    */
   public static int[] getInsertFeedbackParameters(Interval interval,
@@ -299,14 +315,12 @@ public final class GridLayoutEditPolicy<C extends IControlInfo>
     IGridInfo gridInfo = m_layout.getGridInfo();
     Interval[] columnIntervals = gridInfo.getColumnIntervals();
     Interval[] rowIntervals = gridInfo.getRowIntervals();
-    int lastX =
-        columnIntervals.length != 0
-            ? columnIntervals[columnIntervals.length - 1].end()
-            : gridInfo.getInsets().left;
-    int lastY =
-        rowIntervals.length != 0
-            ? rowIntervals[rowIntervals.length - 1].end()
-            : gridInfo.getInsets().top;
+    int lastX = columnIntervals.length != 0
+        ? columnIntervals[columnIntervals.length - 1].end()
+        : gridInfo.getInsets().left;
+    int lastY = rowIntervals.length != 0
+        ? rowIntervals[rowIntervals.length - 1].end()
+        : gridInfo.getInsets().top;
     // prepare insert bounds
     {
       if (columnIntervals.length != 0) {
@@ -459,7 +473,7 @@ public final class GridLayoutEditPolicy<C extends IControlInfo>
 
   ////////////////////////////////////////////////////////////////////////////
   //
-  // IHeadersProvider 
+  // IHeadersProvider
   //
   ////////////////////////////////////////////////////////////////////////////
   public LayoutEditPolicy getContainerLayoutPolicy(boolean horizontal) {

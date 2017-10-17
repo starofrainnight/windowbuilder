@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Configurable {@link SimpleContainer} for {@link XmlObjectInfo} children.
- * 
+ *
  * @author scheglov_ke
  * @coverage XML.model.generic
  */
@@ -64,6 +64,8 @@ public final class SimpleContainerConfigurable implements SimpleContainer {
   //
   ////////////////////////////////////////////////////////////////////////////
   public boolean validateComponent(Object component) {
+    m_configuration.getComponentValidator().validate(m_container, component);
+//    return true;
     return m_configuration.getComponentValidator().validate(m_container, component);
   }
 

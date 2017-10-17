@@ -49,7 +49,7 @@ import java.util.List;
 
 /**
  * Implementation of {@link SelectionEditPolicy} for "grid based" layouts.
- * 
+ *
  * @author scheglov_ke
  * @coverage core.gef.policy.grid
  */
@@ -108,6 +108,12 @@ public abstract class AbstractGridSelectionEditPolicy extends SelectionEditPolic
    */
   private Rectangle getComponentCellBounds() throws Exception {
     Rectangle cells = getComponentCells();
+    if (cells.x == -1) {
+      cells.x = 0;
+    }
+    if (cells.y == -1) {
+      cells.y = 0;
+    }
     return getGridInfo().getCellsRectangle(cells);
   }
 
@@ -372,9 +378,8 @@ public abstract class AbstractGridSelectionEditPolicy extends SelectionEditPolic
     bounds.translate(request.getMoveDelta());
     bounds.resize(request.getSizeDelta());
     // create command
-    boolean isHorizontal =
-        request.getResizeDirection() == IPositionConstants.WEST
-            || request.getResizeDirection() == IPositionConstants.EAST;
+    boolean isHorizontal = request.getResizeDirection() == IPositionConstants.WEST
+        || request.getResizeDirection() == IPositionConstants.EAST;
     m_sizeCommand = createSizeCommand(isHorizontal, bounds.getSize());
     // show feedback
     {
@@ -523,7 +528,7 @@ public abstract class AbstractGridSelectionEditPolicy extends SelectionEditPolic
   /**
    * @return the fixed location for given axis, component cells and grid information, so that we
    *         don't intersect other components.
-   * 
+   *
    * @param locationStep
    *          the step for changing location, for example it is +1 for end and -1 for begin
    *          location.
