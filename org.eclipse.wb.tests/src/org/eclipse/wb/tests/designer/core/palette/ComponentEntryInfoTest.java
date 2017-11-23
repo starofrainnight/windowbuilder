@@ -47,8 +47,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.MapAssert.entry;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.MapEntry.entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.osgi.framework.Bundle;
@@ -61,7 +61,7 @@ import javax.swing.JPanel;
 
 /**
  * Tests for {@link ComponentEntryInfo}.
- * 
+ *
  * @author scheglov_ke
  */
 public class ComponentEntryInfoTest extends AbstractPaletteTest {
@@ -106,10 +106,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
    * Only "class" specified in extension, so other things are deduced.
    */
   public void test_parse_onlyClass() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='javax.swing.JPanel'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='javax.swing.JPanel'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare category/entry
     CategoryInfo category = palette.getCategory("category_1");
@@ -137,10 +138,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
    * "id", "name", "description" and "icon" specified in extension.
    */
   public void test_parse_valuesFromExtension() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='javax.swing.JPanel' creationId='creation id' id='my id' name='my name' description='my description' icon='icons/true.gif' visible='false'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='javax.swing.JPanel' creationId='creation id' id='my id' name='my name' description='my description' icon='icons/true.gif' visible='false'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare category/entry
     CategoryInfo category = palette.getCategory("category_1");
@@ -193,10 +195,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
 
   private void assertDescriptionText_fromComponentDescription(String descriptionAttribute)
       throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='javax.swing.JPanel' description='" + descriptionAttribute + "'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='javax.swing.JPanel' description='" + descriptionAttribute + "'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare category/entry
     CategoryInfo category = palette.getCategory("category_1");
@@ -215,10 +218,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
    * Standard {@link JPanel}, description and icon from {@link ComponentDescription}.
    */
   public void test_initialize_1_allDefaults() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='javax.swing.JPanel'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='javax.swing.JPanel'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare component
     CategoryInfo category = palette.getCategory("category_1");
@@ -243,10 +247,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
     JavaInfo panel = parseEmptyPanel();
     assertEquals(0, m_lastState.getWarnings().size());
     //
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='no.such.Component'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='no.such.Component'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette(panel);
     // prepare component
     CategoryInfo category = palette.getCategory("category_1");
@@ -276,23 +281,23 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
     waitEventLoop(10);
     waitForAutoBuild();
     // parse
-    JavaInfo panel =
-        parseSource(
-            "test",
-            "Test.java",
-            getTestSource(
-                "// filler filler filler filler filler",
-                "// filler filler filler filler filler",
-                "public class Test extends JPanel {",
-                "  public Test() {",
-                "  }",
-                "}"));
+    JavaInfo panel = parseSource(
+        "test",
+        "Test.java",
+        getTestSource(
+            "// filler filler filler filler filler",
+            "// filler filler filler filler filler",
+            "public class Test extends JPanel {",
+            "  public Test() {",
+            "  }",
+            "}"));
     assertEquals(0, m_lastState.getWarnings().size());
     //
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='test.MyPanel'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='test.MyPanel'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette(panel);
     // prepare component
     CategoryInfo category = palette.getCategory("category_1");
@@ -306,10 +311,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
    * Object without description.
    */
   public void test_initialize_noDescription() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='java.lang.String'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='java.lang.String'/>",
+            "</category>"});
     JavaInfo panel = parseEmptyPanel();
     PaletteInfo palette = loadPalette(panel);
     // prepare component
@@ -347,23 +353,23 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
             "</component>"));
     waitForAutoBuild();
     // parse
-    JavaInfo panel =
-        parseSource(
-            "test",
-            "Test2.java",
-            getTestSource(
-                "// filler filler filler filler filler",
-                "// filler filler filler filler filler",
-                "public class Test2 extends JPanel {",
-                "  public Test2() {",
-                "  }",
-                "}"));
+    JavaInfo panel = parseSource(
+        "test",
+        "Test2.java",
+        getTestSource(
+            "// filler filler filler filler filler",
+            "// filler filler filler filler filler",
+            "public class Test2 extends JPanel {",
+            "  public Test2() {",
+            "  }",
+            "}"));
     PaletteManager manager = new PaletteManager(panel, TOOLKIT_ID);
     // load palette
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='test.MyPanel' creationId='false'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='test.MyPanel' creationId='false'/>",
+            "</category>"});
     manager.reloadPalette();
     PaletteInfo palette = manager.getPalette();
     // prepare component
@@ -403,10 +409,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
     JavaInfo panel = parseEmptyPanel();
     PaletteManager manager = new PaletteManager(panel, TOOLKIT_ID);
     // load palette
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='test.MyPanel' creationId='noSuchCreation'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='test.MyPanel' creationId='noSuchCreation'/>",
+            "</category>"});
     manager.reloadPalette();
     PaletteInfo palette = manager.getPalette();
     // prepare component
@@ -427,10 +434,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
    * Test that "enabled" script can be used to disable.
    */
   public void test_isEnabled_enabledScript() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='javax.swing.JPanel' name='my name' enabled='1 == 2'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='javax.swing.JPanel' name='my name' enabled='1 == 2'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare category/entry
     CategoryInfo category = palette.getCategory("category_1");
@@ -451,10 +459,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
   //
   ////////////////////////////////////////////////////////////////////////////
   public void test_createTool() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='javax.swing.JPanel'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='javax.swing.JPanel'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare component
     CategoryInfo category = palette.getCategory("category_1");
@@ -490,10 +499,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
             "}"));
     waitForAutoBuild();
     // prepare palette
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='test.MyAbstractButton'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='test.MyAbstractButton'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare component
     final CategoryInfo category = palette.getCategory("category_1");
@@ -541,10 +551,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
             "</component>"));
     waitForAutoBuild();
     // prepare palette
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='test.MyAbstractButton'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='test.MyAbstractButton'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare component
     final CategoryInfo category = palette.getCategory("category_1");
@@ -568,10 +579,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
    * problem happened.
    */
   public void test_createTool_badClass() throws Exception {
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component class='no.such.Class'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component class='no.such.Class'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare component
     CategoryInfo category = palette.getCategory("category_1");
@@ -601,31 +613,33 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       String className = ClassForBundle.class.getName();
       testBundle.addJar("myClasses.jar").addClass(ClassForBundle.class).close();
       testBundle.addJar("myClasses.zip").add(className.replace('.', '/') + ".java", "src").close();
-      testBundle.addExtension("org.eclipse.wb.core.toolkits", new String[]{
-          "<toolkit id='org.eclipse.wb.swing'>",
-          "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses.jar'/>",
-          "</toolkit>"});
+      testBundle.addExtension(
+          "org.eclipse.wb.core.toolkits",
+          new String[]{
+              "<toolkit id='org.eclipse.wb.swing'>",
+              "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses.jar'/>",
+              "</toolkit>"});
       testBundle.install();
       try {
-        addPaletteExtension(new String[]{
-            "<category id='category_1' name='category 1'>",
-            "  <component class='" + className + "'>",
-            "    <library type='"
-                + className
-                + "'"
-                + " bundle='"
-                + testBundle.getId()
-                + "'"
-                + " jar='myClasses.jar' src='myClasses.zip'/>",
-            "  </component>",
-            "</category>"});
-        ContainerInfo panel =
-            parseContainer(
-                "// filler filler filler",
-                "public class Test extends JPanel {",
-                "  public Test() {",
-                "  }",
-                "}");
+        addPaletteExtension(
+            new String[]{
+                "<category id='category_1' name='category 1'>",
+                "  <component class='" + className + "'>",
+                "    <library type='"
+                    + className
+                    + "'"
+                    + " bundle='"
+                    + testBundle.getId()
+                    + "'"
+                    + " jar='myClasses.jar' src='myClasses.zip'/>",
+                "  </component>",
+                "</category>"});
+        ContainerInfo panel = parseContainer(
+            "// filler filler filler",
+            "public class Test extends JPanel {",
+            "  public Test() {",
+            "  }",
+            "}");
         PaletteInfo palette = loadPalette(panel);
         // initially to layout type in project
         assertNull(m_javaProject.findType(className));
@@ -667,40 +681,44 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       testBundle.addJar("myClasses.jar").addClass(ClassForBundle.class).close();
       testBundle.addJar("myClasses.zip").add(className.replace('.', '/') + ".java", "src").close();
       testBundle.addJar("myClasses2.jar").addClass(ClassForBundle2.class).close();
-      testBundle.addJar("myClasses2.zip").add(className2.replace('.', '/') + ".java", "src").close();
-      testBundle.addExtension("org.eclipse.wb.core.toolkits", new String[]{
-          "<toolkit id='org.eclipse.wb.swing'>",
-          "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses.jar'/>",
-          "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses2.jar'/>",
-          "</toolkit>"});
+      testBundle.addJar("myClasses2.zip").add(
+          className2.replace('.', '/') + ".java",
+          "src").close();
+      testBundle.addExtension(
+          "org.eclipse.wb.core.toolkits",
+          new String[]{
+              "<toolkit id='org.eclipse.wb.swing'>",
+              "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses.jar'/>",
+              "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses2.jar'/>",
+              "</toolkit>"});
       testBundle.install();
       try {
-        addPaletteExtension(new String[]{
-            "<category id='category_1' name='category 1'>",
-            "  <component class='" + className2 + "'>",
-            "    <library type='"
-                + className
-                + "'"
-                + " bundle='"
-                + testBundle.getId()
-                + "'"
-                + " jar='myClasses.jar' src='myClasses.zip'/>",
-            "    <library type='"
-                + className2
-                + "'"
-                + " bundle='"
-                + testBundle.getId()
-                + "'"
-                + " jar='myClasses2.jar' src='myClasses2.zip'/>",
-            "  </component>",
-            "</category>"});
-        ContainerInfo panel =
-            parseContainer(
-                "// filler filler filler",
-                "public class Test extends JPanel {",
-                "  public Test() {",
-                "  }",
-                "}");
+        addPaletteExtension(
+            new String[]{
+                "<category id='category_1' name='category 1'>",
+                "  <component class='" + className2 + "'>",
+                "    <library type='"
+                    + className
+                    + "'"
+                    + " bundle='"
+                    + testBundle.getId()
+                    + "'"
+                    + " jar='myClasses.jar' src='myClasses.zip'/>",
+                "    <library type='"
+                    + className2
+                    + "'"
+                    + " bundle='"
+                    + testBundle.getId()
+                    + "'"
+                    + " jar='myClasses2.jar' src='myClasses2.zip'/>",
+                "  </component>",
+                "</category>"});
+        ContainerInfo panel = parseContainer(
+            "// filler filler filler",
+            "public class Test extends JPanel {",
+            "  public Test() {",
+            "  }",
+            "}");
         PaletteInfo palette = loadPalette(panel);
         // initially to layout type in project
         assertNull(m_javaProject.findType(className));
@@ -744,24 +762,27 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       String className = ClassForBundle.class.getName();
       testBundle.addJar("myClasses.jar").addClass(ClassForBundle.class).close();
       testBundle.addJar("myClasses.zip").add(className.replace('.', '/') + ".java", "src").close();
-      testBundle.addExtension("org.eclipse.wb.core.toolkits", new String[]{
-          "<toolkit id='org.eclipse.wb.swing'>",
-          "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses.jar'/>",
-          "</toolkit>"});
+      testBundle.addExtension(
+          "org.eclipse.wb.core.toolkits",
+          new String[]{
+              "<toolkit id='org.eclipse.wb.swing'>",
+              "  <classLoader-library bundle='" + testBundle.getId() + "' jar='myClasses.jar'/>",
+              "</toolkit>"});
       testBundle.install();
       {
-        addPaletteExtension(new String[]{
-            "<category id='category_1' name='category 1'>",
-            "  <component class='" + className + "'>",
-            "    <library type='"
-                + className
-                + "'"
-                + " bundle='"
-                + testBundle.getId()
-                + "'"
-                + " jar='myClasses.jar' src='myClasses.zip'/>",
-            "  </component>",
-            "</category>"});
+        addPaletteExtension(
+            new String[]{
+                "<category id='category_1' name='category 1'>",
+                "  <component class='" + className + "'>",
+                "    <library type='"
+                    + className
+                    + "'"
+                    + " bundle='"
+                    + testBundle.getId()
+                    + "'"
+                    + " jar='myClasses.jar' src='myClasses.zip'/>",
+                "  </component>",
+                "</category>"});
         PaletteInfo palette = loadPalette();
         // initially to layout type in project
         assertNull(m_javaProject.findType(className));
@@ -797,10 +818,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
     // prepare MyComponent
     prepareMyComponent();
     // load palette
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component id='t' class='test.MyComponent'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component id='t' class='test.MyComponent'/>",
+            "</category>"});
     ComponentEntryInfo entry = loadSingleComponent("t");
     assertHasClass(entry, true);
   }
@@ -830,10 +852,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
               "}"));
       waitForAutoBuild();
       // load palette
-      addPaletteExtension(new String[]{
-          "<category id='category_1' name='category 1'>",
-          "  <component id='t' class='test.NoSuchComponent'/>",
-          "</category>"});
+      addPaletteExtension(
+          new String[]{
+              "<category id='category_1' name='category 1'>",
+              "  <component id='t' class='test.NoSuchComponent'/>",
+              "</category>"});
       ComponentEntryInfo entry = loadSingleComponent("t");
       assertHasClass(entry, true);
     } finally {
@@ -857,10 +880,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       // prepare MyComponent
       prepareMyComponent();
       // load palette
-      addPaletteExtension(new String[]{
-          "<category id='category_1' name='category 1'>",
-          "  <component id='t' class='test.MyComponent'/>",
-          "</category>"});
+      addPaletteExtension(
+          new String[]{
+              "<category id='category_1' name='category 1'>",
+              "  <component id='t' class='test.MyComponent'/>",
+              "</category>"});
       ComponentEntryInfo entry = loadSingleComponent("t");
       assertHasClass(entry, false);
     } finally {
@@ -891,10 +915,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       getFileSrc("test/MyComponent.java").delete(true, null);
       assertFalse(ProjectUtils.hasType(m_javaProject, "test.MyComponent"));
       // load palette
-      addPaletteExtension(new String[]{
-          "<category id='category_1' name='category 1'>",
-          "  <component id='t' class='test.MyComponent'/>",
-          "</category>"});
+      addPaletteExtension(
+          new String[]{
+              "<category id='category_1' name='category 1'>",
+              "  <component id='t' class='test.MyComponent'/>",
+              "</category>"});
       ComponentEntryInfo entry = loadSingleComponent("t");
       assertHasClass(entry, false);
     } finally {
@@ -920,10 +945,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       prepareMyComponent();
       assertTrue(ProjectUtils.hasType(m_javaProject, "test.MyComponent"));
       // load palette
-      addPaletteExtension(new String[]{
-          "<category id='category_1' name='category 1'>",
-          "  <component id='t' class='test.MyComponent'/>",
-          "</category>"});
+      addPaletteExtension(
+          new String[]{
+              "<category id='category_1' name='category 1'>",
+              "  <component id='t' class='test.MyComponent'/>",
+              "</category>"});
       ComponentEntryInfo entry = loadSingleComponent("t");
       assertHasClass(entry, true);
     } finally {
@@ -946,10 +972,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       // no MyComponent
       assertFalse(ProjectUtils.hasType(m_javaProject, "test.MyComponent"));
       // load palette
-      addPaletteExtension(new String[]{
-          "<category id='category_1' name='category 1'>",
-          "  <component id='t' class='test.MyComponent'/>",
-          "</category>"});
+      addPaletteExtension(
+          new String[]{
+              "<category id='category_1' name='category 1'>",
+              "  <component id='t' class='test.MyComponent'/>",
+              "</category>"});
       ComponentEntryInfo entry = loadSingleComponent("t");
       assertHasClass(entry, true);
     } finally {
@@ -1008,11 +1035,10 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
       try {
         String toolkitId = "org.eclipse.wb.swing";
         // get cache
-        Object cache =
-            ReflectionUtils.invokeMethod(
-                ComponentPresentationHelper.class,
-                "getCache(java.lang.String)",
-                toolkitId);
+        Object cache = ReflectionUtils.invokeMethod(
+            ComponentPresentationHelper.class,
+            "getCache(java.lang.String)",
+            toolkitId);
         // do the job
         ReflectionUtils.invokeMethod(
             ComponentPresentationHelper.class,
@@ -1023,11 +1049,10 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
             toolkitId,
             new NullProgressMonitor());
         // get presentation and check
-        ComponentPresentation presentation =
-            (ComponentPresentation) ReflectionUtils.invokeMethod(
-                cache,
-                "get(java.lang.String)",
-                className + " null");
+        ComponentPresentation presentation = (ComponentPresentation) ReflectionUtils.invokeMethod(
+            cache,
+            "get(java.lang.String)",
+            className + " null");
         assertNotNull(presentation);
         assertEquals(
             "test1 test2 <p attr=\"val\">test3</p> test4 test5",
@@ -1120,7 +1145,7 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
     // new component has "template arguments"
     {
       Map<String, String> templateArguments = newComponent.getTemplateArguments();
-      assertThat(templateArguments).includes(entry("rowType", "java.lang.String"));
+      assertThat(templateArguments).contains(entry("rowType", "java.lang.String"));
     }
   }
 
@@ -1256,10 +1281,11 @@ public class ComponentEntryInfoTest extends AbstractPaletteTest {
             "</component>"));
     waitForAutoBuild();
     // prepare palette
-    addPaletteExtension(new String[]{
-        "<category id='category_1' name='category 1'>",
-        "  <component id='myId' class='test.MyPanel'/>",
-        "</category>"});
+    addPaletteExtension(
+        new String[]{
+            "<category id='category_1' name='category 1'>",
+            "  <component id='myId' class='test.MyPanel'/>",
+            "</category>"});
     PaletteInfo palette = loadPalette();
     // prepare component
     ComponentEntryInfo componentEntry = (ComponentEntryInfo) palette.getEntry("myId");
