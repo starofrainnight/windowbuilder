@@ -35,6 +35,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -654,8 +655,8 @@ public class ReflectionUtils {
     return !isPublic(field) && !isProtected(field) && !isPrivate(field);
   }
 
-  public static boolean isStatic(Field field) {
-    return Modifier.isStatic(field.getModifiers());
+  public static boolean isStatic(Member member) {
+    return Modifier.isStatic(member.getModifiers());
   }
 
   public static boolean isAbstract(Class<?> clazz) {

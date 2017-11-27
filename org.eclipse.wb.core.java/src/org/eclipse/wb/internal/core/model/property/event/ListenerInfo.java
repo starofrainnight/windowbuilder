@@ -47,7 +47,9 @@ final class ListenerInfo {
   // Constructor
   //
   ////////////////////////////////////////////////////////////////////////////
-  public ListenerInfo(Method method, Class<?> componentClass, GenericTypeResolver externalResolver) {
+  public ListenerInfo(Method method,
+      Class<?> componentClass,
+      GenericTypeResolver externalResolver) {
     m_method = method;
     m_componentClass = componentClass;
     m_externalResolver = externalResolver;
@@ -208,11 +210,10 @@ final class ListenerInfo {
   }
 
   public GenericTypeResolver getResolver() {
-    GenericTypeResolver resolver_1 =
-        GenericTypeResolver.superClass(
-            m_externalResolver,
-            m_componentClass,
-            m_method.getDeclaringClass());
+    GenericTypeResolver resolver_1 = GenericTypeResolver.superClass(
+        m_externalResolver,
+        m_componentClass,
+        m_method.getDeclaringClass());
     GenericTypeResolver resolver_2 = GenericTypeResolver.argumentOfMethod(resolver_1, m_method, 0);
     return resolver_2;
   }
@@ -257,7 +258,7 @@ final class ListenerInfo {
       return true;
     }
     if (method.getDeclaringClass() == m_interfaceType) {
-      return true;
+      return !(m_interfaceType.isInterface() && ReflectionUtils.isStatic(method));
     }
     return false;
   }
