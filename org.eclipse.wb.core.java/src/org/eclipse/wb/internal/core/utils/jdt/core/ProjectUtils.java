@@ -96,7 +96,7 @@ public final class ProjectUtils {
   }
 
   /**
-   * @return <code>true</code> if the project has JDK 1.5 compiler compliance turned on.
+   * @return <code>true</code> if the project has JDK 1.5 or higher compiler compliance turned on.
    */
   public static boolean isJDK15(IJavaProject project) {
     if (project != null) {
@@ -104,6 +104,25 @@ public final class ProjectUtils {
       if (complianceString != null) {
         float compliance = Float.parseFloat(complianceString);
         return compliance >= 1.5;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @param project
+   *          the project to check
+   * @param minimumVersion
+   *          the version we are looking for
+   * @return <code>true</code> if the project has JDK <code>minimumVersion</code> compiler
+   *         compliance turned on.
+   */
+  public static boolean isJDKVersion(IJavaProject project, Float minimumVersion) {
+    if (project != null) {
+      String complianceString = getJavaVersionString(project);
+      if (complianceString != null) {
+        float compliance = Float.parseFloat(complianceString);
+        return compliance >= minimumVersion;
       }
     }
     return false;
@@ -162,7 +181,7 @@ public final class ProjectUtils {
     // prepare required contents
     String contents;
     {
-      String versionString = isJDK15(javaProject) ? "1.5" : "1.4";
+      String versionString = getVersionString(javaProject);
       String path = "/resources/" + versionString + "/" + typeName.replace('.', '/') + ".java";
       contents = BundleResourceProvider.get(bundle).getFileString(path);
     }
@@ -185,6 +204,16 @@ public final class ProjectUtils {
         updateCompilationUnitWithType(compilationUnit, contents);
       }
     }
+  }
+
+  private static String getVersionString(IJavaProject javaProject) {
+    String versionString = "1.5";
+    if (!isJDK15(javaProject)) {
+      versionString = "1.4";
+    } else if (isJDKVersion(javaProject, 1.8f)) {
+      versionString = "1.8";
+    }
+    return versionString;
   }
 
   private static void createCompilationUnitWithType(IJavaProject javaProject,
@@ -367,11 +396,10 @@ public final class ProjectUtils {
     addClasspathEntry(javaProject, entry);
     // notify listeners
     {
-      List<IProjectClasspathListener> listeners =
-          ExternalFactoriesHelper.getElementsInstances(
-              IProjectClasspathListener.class,
-              "org.eclipse.wb.core.projectClasspathListeners",
-              "listener");
+      List<IProjectClasspathListener> listeners = ExternalFactoriesHelper.getElementsInstances(
+          IProjectClasspathListener.class,
+          "org.eclipse.wb.core.projectClasspathListeners",
+          "listener");
       for (IProjectClasspathListener listener : listeners) {
         listener.addClasspathEntry(javaProject, jarPathString, srcPathString);
       }
@@ -386,7 +414,8 @@ public final class ProjectUtils {
    * @param pluginId
    *          the plugin id.
    */
-  public static void addPluginLibraries(IJavaProject javaProject, String pluginId) throws Exception {
+  public static void addPluginLibraries(IJavaProject javaProject, String pluginId)
+      throws Exception {
     List<IClasspathEntry> entries = Lists.newArrayList();
     // add existing entries
     CollectionUtils.addAll(entries, javaProject.getRawClasspath());
@@ -414,10 +443,9 @@ public final class ProjectUtils {
   public static void requireProject(IJavaProject project, IJavaProject requiredProject)
       throws JavaModelException {
     IClasspathEntry[] rawClasspath = project.getRawClasspath();
-    rawClasspath =
-        (IClasspathEntry[]) ArrayUtils.add(
-            rawClasspath,
-            JavaCore.newProjectEntry(requiredProject.getPath()));
+    rawClasspath = (IClasspathEntry[]) ArrayUtils.add(
+        rawClasspath,
+        JavaCore.newProjectEntry(requiredProject.getPath()));
     project.setRawClasspath(rawClasspath, null);
   }
 
