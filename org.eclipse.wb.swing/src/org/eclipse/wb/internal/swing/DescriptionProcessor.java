@@ -17,6 +17,8 @@ import org.eclipse.wb.internal.core.utils.ast.AstEditor;
 import org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils;
 import org.eclipse.wb.internal.core.utils.ui.ImageUtils;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.graphics.Image;
 
 import java.awt.Component;
@@ -25,7 +27,7 @@ import java.lang.reflect.Method;
 
 /**
  * Implementation of {@link IDescriptionProcessor} for AWT/Swing components.
- * 
+ *
  * @author scheglov_ke
  * @coverage swing
  */
@@ -38,7 +40,8 @@ public final class DescriptionProcessor implements IDescriptionProcessor {
   // IDescriptionProcessor
   //
   ////////////////////////////////////////////////////////////////////////////
-  public void process(AstEditor editor, ComponentDescription componentDescription) throws Exception {
+  public void process(AstEditor editor, ComponentDescription componentDescription)
+      throws Exception {
     this.componentDescription = componentDescription;
     beanInfo = componentDescription.getBeanInfo();
     try {
@@ -47,6 +50,13 @@ public final class DescriptionProcessor implements IDescriptionProcessor {
         configureContainerFlag();
         configureMethods_add();
       }
+    } catch (Exception e) {
+      IStatus status = new Status(IStatus.ERROR,
+          Activator.PLUGIN_ID,
+          "Error processing component: " + componentDescription,
+          e);
+      Activator.getDefault().getLog().log(status);
+      throw e;
     } finally {
       this.componentDescription = null;
       beanInfo = null;
