@@ -56,21 +56,21 @@ import java.util.Set;
 
 public abstract class OSSupportLinux<H extends Number> extends OSSupport {
   static {
-    boolean isGtk3;
-    try {
-      isGtk3 = isGtk3();
-    } catch (Throwable e) {
-      Activator.logError("Error trying to find GTK version, GTK3 will be assumed", e);
-      isGtk3 = true;
-    }
-    String libName = isGtk3 ? "wbp3" : "wbp";
+    String libName = isGtk3() ? "wbp3" : "wbp";
     System.loadLibrary(libName);
   }
 
-  private static boolean isGtk3() throws Exception {
-    Class<?> GTKClass = Class.forName("org.eclipse.swt.internal.gtk.GTK");
-    boolean isGtk3 = ReflectionUtils.getFieldBoolean(GTKClass, "GTK3");
-    return isGtk3;
+  /**
+   * @return true if GTK3 or higher
+   */
+  private static boolean isGtk3() {
+    try {
+      Class<?> GTKClass = Class.forName("org.eclipse.swt.internal.gtk.GTK");
+      return ReflectionUtils.getFieldBoolean(GTKClass, "GTK4");
+    } catch (Throwable e) {
+      Activator.logError("Error trying to find GTK version, GTK3 will be assumed", e);
+      return true;
+    }
   }
 
   // constants
