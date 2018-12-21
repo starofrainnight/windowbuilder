@@ -55,22 +55,34 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class OSSupportLinux<H extends Number> extends OSSupport {
+  private static Boolean fIsGTK3;
   static {
-    boolean isGtk3;
-    try {
-      isGtk3 = isGtk3();
-    } catch (Throwable e) {
-      Activator.logError("Error trying to find GTK version, GTK3 will be assumed", e);
-      isGtk3 = true;
-    }
-    String libName = isGtk3 ? "wbp3" : "wbp";
+    String libName = isGtk3() ? "wbp3" : "wbp";
     System.loadLibrary(libName);
   }
 
-  private static boolean isGtk3() throws Exception {
-    Class<?> GTKClass = Class.forName("org.eclipse.swt.internal.gtk.GTK");
-    boolean isGtk3 = ReflectionUtils.getFieldBoolean(GTKClass, "GTK3");
-    return isGtk3;
+  /**
+   * @return true if GTK3 or higher
+   */
+  private static boolean isGtk3() {
+    if (fIsGTK3 != null) {
+      return fIsGTK3;
+    }
+    try {
+      Class<?> GTKClass = Class.forName("org.eclipse.swt.internal.gtk.GTK");
+      ReflectionUtils.getFieldBoolean(GTKClass, "GTK4");
+      fIsGTK3 = true;
+    } catch (Throwable e) {
+      try {
+        Activator.logError("Error trying to find GTK version, Trying GTK3", e);
+        Class<?> GTKClass = Class.forName("org.eclipse.swt.internal.gtk.GTK");
+        fIsGTK3 = ReflectionUtils.getFieldBoolean(GTKClass, "GTK3");
+      } catch (Throwable e2) {
+        Activator.logError("Error trying to find GTK version, GTK3+ will be assumed", e2);
+        fIsGTK3 = true;
+      }
+    }
+    return fIsGTK3;
   }
 
   // constants
@@ -176,13 +188,22 @@ public abstract class OSSupportLinux<H extends Number> extends OSSupport {
         DesignerPlugin.log(e);
       }
       m_eclipseShell = DesignerPlugin.getShell();
-      // sometimes can be null, don't know why.
-      if (m_eclipseShell != null) {
-        m_eclipseToggledOnTop = _toggle_above(getShellHandle(m_eclipseShell), false);
-      }
+      _setToggleAbove();
     } else {
       shell.setLocation(10000, 10000);
       shell.setVisible(true);
+    }
+  }
+
+  private void _setToggleAbove() {
+    // sometimes can be null, don't know why.
+    if (m_eclipseShell != null) {
+      if (fIsGTK3) {
+        // function crashes eclipse and is not implemented for GTK3
+        m_eclipseToggledOnTop = true;
+      } else {
+        m_eclipseToggledOnTop = _toggle_above(getShellHandle(m_eclipseShell), false);
+      }
     }
   }
 
@@ -195,9 +216,7 @@ public abstract class OSSupportLinux<H extends Number> extends OSSupport {
     restoreTitle(shell);
     if (!isWorkaroundsDisabled()) {
       _end_shot(getShellHandle(shell));
-      if (m_eclipseShell != null) {
-        _toggle_above(getShellHandle(m_eclipseShell), m_eclipseToggledOnTop);
-      }
+      _setToggleAbove();
     }
   }
 
